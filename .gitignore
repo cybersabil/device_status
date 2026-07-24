@@ -1,0 +1,4 @@
+*.csv
+*.xlsx
+real_data/
+reports/

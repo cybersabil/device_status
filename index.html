@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://localhost:10000 https://*.onrender.com; script-src 'self'; style-src 'self'; img-src 'self' data:; base-uri 'self'; form-action 'self'">
+  <title>Employee Device Dashboard</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+<header>
+  <div><h1>Employee Device Dashboard</h1><p>State/group-wise employee device and app report</p></div>
+  <div id="headerActions" class="header-actions hidden">
+    <button id="showDashboard" class="nav-button active">Dashboard</button>
+    <button id="showMaster" class="nav-button">Master Data</button>
+    <button id="signOut" class="secondary">Sign out</button>
+  </div>
+</header>
+<main>
+  <section id="loginCard" class="card narrow">
+    <h2>Secure sign in</h2>
+    <label>Username<input id="username" autocomplete="username"></label>
+    <label>Password<input id="password" type="password" autocomplete="current-password"></label>
+    <button id="loginButton">Sign in</button>
+    <div id="loginMessage" class="message"></div>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="card">
+      <div class="grid">
+        <label>Search Mode<select id="mode"><option value="state">All active employees in state/group</option><option value="selected">Selected employees</option><option value="manual">Manual Employee IDs</option></select></label>
+        <label>State / Group<select id="state"></select></label>
+        <label>From Date<input id="fromDate" type="date"></label>
+        <label>To Date<input id="toDate" type="date"></label>
+      </div>
+      <label id="employeeBox">Employees<select id="employees" multiple size="10"></select></label>
+      <label id="manualBox" class="hidden">Manual Employee IDs<textarea id="manualIds" placeholder="0524E, 0444E or one ID per line"></textarea></label>
+      <label class="check"><input id="includeNoData" type="checkbox" checked> Include No Data and error rows</label>
+      <div class="actions"><button id="generate">Generate Report</button><button id="cancel" class="danger hidden">Cancel Report</button><button id="download" class="secondary" disabled>Download CSV</button></div>
+      <div id="progress" class="message"></div>
+    </div>
+
+    <div id="summary" class="summary"></div>
+    <div class="card table-card">
+      <div class="table-toolbar"><input id="filter" placeholder="Filter current results"><span id="pageInfo"></span></div>
+      <div class="table-wrap"><table><thead id="thead"></thead><tbody id="tbody"></tbody></table></div>
+      <div class="actions table-actions"><button id="prev" class="secondary">Previous</button><button id="next" class="secondary">Next</button></div>
+    </div>
+  </section>
+
+  <section id="masterData" class="hidden">
+    <div class="card">
+      <div class="section-heading">
+        <div><h2>Employee Master Data</h2><p>Validate and safely update the employee list used by the dashboard.</p></div>
+        <div class="actions"><button id="downloadCurrentMaster" class="secondary">Download Current Master</button><button id="downloadSampleMaster" class="secondary">Download Sample CSV</button></div>
+      </div>
+      <div id="masterSummary" class="summary"></div>
+      <div class="master-upload">
+        <label>Choose updated Employee Master CSV<input id="masterFile" type="file" accept=".csv,text/csv"></label>
+        <div class="actions"><button id="validateMaster">Validate CSV</button><button id="applyMaster" class="danger" disabled>Apply Validated Update</button><button id="refreshMaster" class="secondary">Refresh Summary</button></div>
+        <div id="masterMessage" class="message"></div>
+      </div>
+    </div>
+    <div id="masterPreview" class="card hidden">
+      <h3>Validation and Change Preview</h3>
+      <div id="masterChangeSummary" class="summary"></div>
+      <div class="preview-grid">
+        <div><h4>Added Employee IDs</h4><pre id="addedIds"></pre></div>
+        <div><h4>Removed Employee IDs</h4><pre id="removedIds"></pre></div>
+        <div><h4>Changed Employee IDs</h4><pre id="changedIds"></pre></div>
+      </div>
+      <p class="warning">Applying an update immediately changes the employee list. A local backup or private GitHub commit is created automatically.</p>
+    </div>
+    <div class="card">
+      <h3>Recent Master Updates</h3>
+      <div id="masterHistory" class="history-list">No history loaded.</div>
+    </div>
+  </section>
+</main>
+<script src="./assets/js/config.js"></script>
+<script src="./assets/js/app.js"></script>
+</body>
+</html>
